@@ -25,7 +25,6 @@ class DevopsbuddyApplicationTests {
 			e.printStackTrace();
 		}
 
-
 	}
 
 }

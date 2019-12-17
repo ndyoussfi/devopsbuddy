@@ -1,4 +1,4 @@
-package com.devopsbuddy.web.i18n;
+package com.devopsbuddy.backend.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import java.util.Locale;
 
 @Service // Spring Service
 public class I18NService {
-    
+
     /** The applicatin logger*/
     private static final Logger LOG = LoggerFactory.getLogger(I18NService.class);
 
@@ -21,9 +21,9 @@ public class I18NService {
     private MessageSource messageSource;
 
     /**
-    * Returns a message for the given message id and default locale in the session ocntext
-    * @param messageId The key the messages resource file
-    **/
+     * Returns a message for the given message id and default locale in the session ocntext
+     * @param messageId The key the messages resource file
+     **/
     public String getMessage(String messageId){
         LOG.info("Returning i18n text for messageId {}", messageId);
         Locale locale = LocaleContextHolder.getLocale();

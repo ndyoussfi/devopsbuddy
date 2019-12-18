@@ -2,15 +2,22 @@ package com.devopsbuddy.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+    @Autowired
+    private Environment env; // for jpa h2 console
 
     /** Public URLs*/
     private static final String[] PUBLIC_MATCHERS = {
@@ -21,12 +28,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             "/",           // home page
             "/about/**",    // about page
             "/contact/**", // contact us page
-            "/error/**/*" // errors
-
+            "/error/**/*", // errors
+            "/console/**"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        // gets list of all active profiles from the environment
+        // disable the following options only when developing
+        List<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        if (activeProfiles.contains("dev")){ // if running with dev profile
+            http.csrf().disable(); // disable csrf
+            http.headers().frameOptions().disable(); // disable frameoptions from headers
+        }
+
         http
                 .authorizeRequests() // authorize all http requests
                 .antMatchers(PUBLIC_MATCHERS).permitAll() // dont require auth for these

@@ -16,14 +16,14 @@ public class UserRole implements Serializable{
     }
 
     // foreign key to user table
-    @Id
-    @ManyToOne(fetch = FetchType.EAGER) // many user ids linked to a single id in the user table
+    @Id // change to FetchType.LAZY or execution of TEST will result in stackoverflow
+    @ManyToOne(fetch = FetchType.LAZY) // many user ids linked to a single id in the user table
     @JoinColumn(name = "user_id")
     private User user;
 
     // foreign key to role table
-    @Id
-    @ManyToOne(fetch = FetchType.EAGER) // many role ids linked to a single id in the role table
+    @Id // change to FetchType.LAZY or execution of test will result in stackoverflow
+    @ManyToOne(fetch = FetchType.LAZY) // many role ids linked to a single id in the role table
     @JoinColumn(name = "role_id")
     private Role role;
 

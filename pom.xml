@@ -39,6 +39,15 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+        <!-- By adding this, spring configures data source,
+             transaction management support, a jdbc template
+             jpa repositories support, hibernate libraries if we need them
+             tomcat jdbc pool, and much more-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
 		<!-- Webjars for jquery and bootstrap-->
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -64,6 +73,14 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
 			<version>2.1.2.RELEASE</version>
+		</dependency>
+
+		<!-- SPRING DATA -->
+        <!-- when spring finds h2 in classpath
+             it automatically sets a connectio to h2database-->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 		</dependency>
 
 		<!-- Test dependencies -->

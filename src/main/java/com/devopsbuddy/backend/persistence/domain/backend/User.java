@@ -1,15 +1,17 @@
 package com.devopsbuddy.backend.persistence.domain.backend;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     /** The Serial Version UID for Serializable Classes*/
     private static final long serialVersionUID = 1L;
@@ -22,7 +24,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO) // GeneratedValue: db automatically assigns user ids at creation
     private long id;
 
-    private String username;
+    private String userName;
     private String password;
     private String email;
 
@@ -79,11 +81,11 @@ public class User implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -187,5 +189,33 @@ public class User implements Serializable {
 
 //        return Objects.hash(id);
         return (int) (id ^ (id >>> 32));
+    }
+
+    // no expiration implemented yet
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    // no locking implemented yet
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    // no credential expiration implemented yet
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    // creates a set of granted authorities
+    // and for each of the users in the user roles set
+    // we will create a new authority class with a role name
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
+        return authorities;
     }
 }

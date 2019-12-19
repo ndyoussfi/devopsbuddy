@@ -12,14 +12,14 @@ public class UserRole implements Serializable{
     private static final long serialVersionUID = 1L;
 
     // foreign key to user table
-    @Id // change to FetchType.LAZY or execution of TEST will result in stackoverflow
-    @ManyToOne(fetch = FetchType.LAZY) // many user ids linked to a single id in the user table
+//    @Id // change to FetchType.LAZY or execution of TEST will result in stackoverflow
+    @ManyToOne(fetch = FetchType.EAGER) // many user ids linked to a single id in the user table
     @JoinColumn(name = "user_id")
     private User user;
 
     // foreign key to role table
-    @Id // change to FetchType.LAZY or execution of test will result in stackoverflow
-    @ManyToOne(fetch = FetchType.LAZY) // many role ids linked to a single id in the role table
+//    @Id // change to FetchType.LAZY or execution of test will result in stackoverflow
+    @ManyToOne(fetch = FetchType.EAGER) // many role ids linked to a single id in the role table
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -31,6 +31,10 @@ public class UserRole implements Serializable{
     public UserRole(){
 
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     public User getUser() {
         return user;
@@ -53,13 +57,12 @@ public class UserRole implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRole userRole = (UserRole) o;
-        return Objects.equals(user, userRole.user) &&
-                Objects.equals(role, userRole.role);
+        return id == userRole.id;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(user, role);
+        return Objects.hash(id);
     }
 }

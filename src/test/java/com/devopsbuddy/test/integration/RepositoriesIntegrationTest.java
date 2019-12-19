@@ -10,7 +10,7 @@ import com.devopsbuddy.backend.persistence.repositories.RoleRepository;
 import com.devopsbuddy.backend.persistence.repositories.UserRepository;
 import com.devopsbuddy.enums.PlansEnum;
 import com.devopsbuddy.enums.RolesEnum;
-import com.devopsbuddy.utils.UsersUtils;
+import com.devopsbuddy.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,28 +70,16 @@ public class RepositoriesIntegrationTest {
     // User entity has many to one relationship with Plan Table
     // this means that before we can save the User entity
     // we need to save all its related entities in order to saveguard the data integrity
+    /**
+     * Create and save the plan and set it as user's foreign key
+     * persist all roles
+     * add them to set of user roles
+     * add the set to the existing user entity
+     * and finally we persist the user*/
+
     @Test
     public void createNewUser() throws Exception{
-        Plan basicPlan = createPlan(PlansEnum.BASIC);
-        planRepository.save(basicPlan);
-
-        User basicUser = UsersUtils.createBasicUser();
-        basicUser.setPlan(basicPlan);
-
-//        Role basicRole = createRole(); // old way without enum
-        Role basicRole = createRole(RolesEnum.BASIC);
-        Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole(basicUser, basicRole);
-//        userRole.setUser(basicUser);
-//        userRole.setRole(basicRole);
-
-        userRoles.add(userRole);
-
-        basicUser.getUserRoles().addAll(userRoles); // important to use getter, and then objects
-
-        for(UserRole ur: userRoles){
-            roleRepository.save(ur.getRole());
-        }
+        User basicUser = createUser();
 
         basicUser = userRepository.save(basicUser);
         User newlyCreatedUser = userRepository.findOne(basicUser.getId());
@@ -106,6 +94,12 @@ public class RepositoriesIntegrationTest {
         }
 
 
+    }
+
+    @Test
+    public void testDeleteUser() throws Exception{
+        User basicUser = createUser();
+        userRepository.delete(basicUser.getId());
     }
 
     private Plan createPlan(PlansEnum plansEnum){
@@ -133,7 +127,7 @@ public class RepositoriesIntegrationTest {
 //    private User createBasicUser(){
 //
 //        User user = new User();
-//        user.setUsername("basicUser");
+//        user.setUserName("basicUser");
 //        user.setPassword("secret");
 //        user.setEmail("me@example.com");
 //        user.setFirstName("firstName");
@@ -146,5 +140,31 @@ public class RepositoriesIntegrationTest {
 //
 //        return user;
 //    }
+
+    private User createUser(){
+        Plan basicPlan = createPlan(PlansEnum.BASIC);
+        planRepository.save(basicPlan);
+
+        User basicUser = UserUtils.createBasicUser();
+        basicUser.setPlan(basicPlan);
+
+//        Role basicRole = createRole(); // old way without enum
+        Role basicRole = createRole(RolesEnum.BASIC);
+        roleRepository.save(basicRole);
+
+        Set<UserRole> userRoles = new HashSet<>();
+        UserRole userRole = new UserRole(basicUser, basicRole);
+//        userRole.setUser(basicUser);
+//        userRole.setRole(basicRole);
+
+        userRoles.add(userRole);
+
+        basicUser.getUserRoles().addAll(userRoles); // important to use getter, and then objects
+        basicUser = userRepository.save(basicUser);
+//        for(UserRole ur: userRoles){
+//            roleRepository.save(ur.getRole());
+//        }
+        return basicUser;
+    }
 
 }

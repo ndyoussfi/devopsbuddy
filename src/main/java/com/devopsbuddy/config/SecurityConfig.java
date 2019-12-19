@@ -1,5 +1,6 @@
 package com.devopsbuddy.config;
 
+import com.devopsbuddy.backend.service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -15,6 +16,9 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+    @Autowired
+    private UserSecurityService userSecurityService;
 
     @Autowired
     private Environment env; // for jpa h2 console
@@ -61,9 +65,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     // @Autowired annotation helps spring inject this class as method parameter
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//        auth
+//                .inMemoryAuthentication()
+//                .withUser("user").password("password")
+//                .roles("USER");
         auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password")
-                .roles("USER");
+            .userDetailsService(userSecurityService);
     }
 }

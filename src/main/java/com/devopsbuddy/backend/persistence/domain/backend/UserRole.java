@@ -11,10 +11,6 @@ public class UserRole implements Serializable{
     /** The Serial Version UID for Serializable Classes*/
     private static final long serialVersionUID = 1L;
 
-    public UserRole(){
-
-    }
-
     // foreign key to user table
     @Id // change to FetchType.LAZY or execution of TEST will result in stackoverflow
     @ManyToOne(fetch = FetchType.LAZY) // many user ids linked to a single id in the user table
@@ -26,6 +22,15 @@ public class UserRole implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY) // many role ids linked to a single id in the role table
     @JoinColumn(name = "role_id")
     private Role role;
+
+    public UserRole(User user, Role role){
+        this.user = user;
+        this.role = role;
+    }
+
+    public UserRole(){
+
+    }
 
     public User getUser() {
         return user;

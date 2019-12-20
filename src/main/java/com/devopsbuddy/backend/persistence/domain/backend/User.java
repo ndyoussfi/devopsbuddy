@@ -24,8 +24,12 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO) // GeneratedValue: db automatically assigns user ids at creation
     private long id;
 
+    @Column(unique = true)
     private String userName;
+
     private String password;
+
+    @Column(unique = true)
     private String email;
 
     @Column(name = "first_name") // Column: to overwrite default values, to use these values to define column names

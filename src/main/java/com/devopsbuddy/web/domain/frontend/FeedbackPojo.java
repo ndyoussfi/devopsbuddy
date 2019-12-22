@@ -2,7 +2,7 @@ package com.devopsbuddy.web.domain.frontend;
 
 import java.io.Serializable;
 
-// object might travel across several jvms, make it serializable
+// if object might travel across several jvms, make it serializable
 public class FeedbackPojo implements Serializable {
 
     private static final long serialSersionUID = 1L;

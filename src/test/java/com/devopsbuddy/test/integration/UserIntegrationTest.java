@@ -26,21 +26,9 @@ import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DevopsbuddyApplication.class)
-public class RepositoriesIntegrationTest {
-
-    @Autowired
-    private PlanRepository planRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+public class UserIntegrationTest extends AbstractIntegrationTest{
 
     @Rule public TestName testName = new TestName();
-
-//    private static final int BASIC_PLAN_ID = 1;
-//    private static final int BASIC_ROLE_ID = 1;
 
     @Before // this methods executes before each test runs
     public void init(){
@@ -99,7 +87,6 @@ public class RepositoriesIntegrationTest {
             Assert.assertNotNull(ur.getRole().getId());
         }
 
-
     }
 
     @Test
@@ -109,71 +96,6 @@ public class RepositoriesIntegrationTest {
 
         User basicUser = createUser(username,email);
         userRepository.delete(basicUser.getId());
-    }
-
-    private Plan createPlan(PlansEnum plansEnum){
-        return new Plan(plansEnum);
-    }
-//    private Plan createBasicPlan(){
-//        Plan plan = new Plan();
-//        plan.setId(BASIC_PLAN_ID);
-//        plan.setName("Basic");
-//        return plan;
-//    }
-
-    private Role createRole(RolesEnum rolesEnum){
-        return new Role(rolesEnum);
-    }
-
-    // old way without rolesenum
-//    private Role createBasicRole(){
-//        Role role = new Role();
-//        role.setId(BASIC_PLAN_ID);
-//        role.setName("ROLE_USER");
-//        return role;
-//    }
-
-//    private User createBasicUser(){
-//
-//        User user = new User();
-//        user.setUserName("basicUser");
-//        user.setPassword("secret");
-//        user.setEmail("me@example.com");
-//        user.setFirstName("firstName");
-//        user.setLastName("lastName");
-//        user.setPhoneNumber("123456789123");
-//        user.setCountry("GB");
-//        user.setEnabled(true);
-//        user.setDescription("A basic user");
-//        user.setProfileImageUrl("https://blabla.images.com/basicuser");
-//
-//        return user;
-//    }
-
-    private User createUser(String username, String email){
-        Plan basicPlan = createPlan(PlansEnum.BASIC);
-        planRepository.save(basicPlan);
-
-        User basicUser = UserUtils.createBasicUser(username,email);
-        basicUser.setPlan(basicPlan);
-
-//        Role basicRole = createRole(); // old way without enum
-        Role basicRole = createRole(RolesEnum.BASIC);
-        roleRepository.save(basicRole);
-
-        Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole(basicUser, basicRole);
-//        userRole.setUser(basicUser);
-//        userRole.setRole(basicRole);
-
-        userRoles.add(userRole);
-
-        basicUser.getUserRoles().addAll(userRoles); // important to use getter, and then objects
-        basicUser = userRepository.save(basicUser);
-//        for(UserRole ur: userRoles){
-//            roleRepository.save(ur.getRole());
-//        }
-        return basicUser;
     }
 
 }

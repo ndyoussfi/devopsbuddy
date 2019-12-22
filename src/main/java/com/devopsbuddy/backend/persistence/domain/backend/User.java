@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.security.AllPermission;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -67,6 +68,21 @@ public class User implements Serializable, UserDetails {
     // fetch eager, when we read a user, we want to get all their roles
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
+
+    @OneToMany(
+            cascade = CascadeType.ALL, // if we delete user, all tokens will be deleted
+            fetch = FetchType.LAZY, // most of time, we wont have tokens for user, so no need for additional join
+            mappedBy = "user" // indicates which attribute in password reset entity defines foreign key relationship
+    )
+    private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
+
+    public Set<PasswordResetToken> getPasswordResetTokens() {
+        return passwordResetTokens;
+    }
+
+    public void setPasswordResetTokens(Set<PasswordResetToken> passwordResetTokens) {
+        this.passwordResetTokens = passwordResetTokens;
+    }
 
     public Set<UserRole> getUserRoles() {
         return userRoles;

@@ -1,8 +1,10 @@
 package com.devopsbuddy.backend.service;
 
+import com.devopsbuddy.backend.persistence.domain.backend.PasswordResetToken;
 import com.devopsbuddy.backend.persistence.domain.backend.Plan;
 import com.devopsbuddy.backend.persistence.domain.backend.User;
 import com.devopsbuddy.backend.persistence.domain.backend.UserRole;
+import com.devopsbuddy.backend.persistence.repositories.PasswordResetTokenRepository;
 import com.devopsbuddy.backend.persistence.repositories.PlanRepository;
 import com.devopsbuddy.backend.persistence.repositories.RoleRepository;
 import com.devopsbuddy.backend.persistence.repositories.UserRepository;
@@ -39,6 +41,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
@@ -64,6 +69,27 @@ public class UserService {
         user = userRepository.save(user);
 
         return user;
+    }
+
+    /**
+     * Returns a user for the given email or null if a user could not be found.
+     * @param email The email associated to the user to find.
+     * @return a user for the given email or null if a user could not be found.
+     */
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Transactional
+    public void updateUserPassword(long userId, String password) {
+        password = passwordEncoder.encode(password);
+        userRepository.updateUserPassword(userId, password);
+        LOG.debug("Password updated successfully for user id {} ", userId);
+
+        Set<PasswordResetToken> resetTokens = passwordResetTokenRepository.findAllByUserId(userId);
+        if (!resetTokens.isEmpty()) {
+            passwordResetTokenRepository.delete(resetTokens);
+        }
     }
 
 }

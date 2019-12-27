@@ -53,13 +53,7 @@ function main() {
         plugins: {
             trigger: new FormValidation.plugins.Trigger(),
             bootstrap3: new FormValidation.plugins.Bootstrap3(),
-            submitButton: new FormValidation.plugins.SubmitButton(),
-            icon: new FormValidation.plugins.Icon({
-                valid: 'fa fa-check',
-                invalid: 'fa fa-times',
-                validating: 'fa fa-refresh'
-            })
-
+            submitButton: new FormValidation.plugins.SubmitButton()
         }
     });
 
@@ -86,13 +80,7 @@ function main() {
         plugins: {
             trigger: new FormValidation.plugins.Trigger(),
             bootstrap3: new FormValidation.plugins.Bootstrap3(),
-            submitButton: new FormValidation.plugins.SubmitButton(),
-            icon: new FormValidation.plugins.Icon({
-                valid: 'fa fa-check',
-                invalid: 'fa fa-times',
-                validating: 'fa fa-refresh'
-            })
-
+            submitButton: new FormValidation.plugins.SubmitButton()
         }
     });
 
@@ -130,13 +118,7 @@ function main() {
         plugins: {
             trigger: new FormValidation.plugins.Trigger(),
             bootstrap3: new FormValidation.plugins.Bootstrap3(),
-            submitButton: new FormValidation.plugins.SubmitButton(),
-            icon: new FormValidation.plugins.Icon({
-                valid: 'fa fa-check',
-                invalid: 'fa fa-times',
-                validating: 'fa fa-refresh'
-            })
-
+            submitButton: new FormValidation.plugins.SubmitButton()
         }
     });
 
@@ -167,13 +149,7 @@ function main() {
         plugins: {
             trigger: new FormValidation.plugins.Trigger(),
             bootstrap3: new FormValidation.plugins.Bootstrap3(),
-            submitButton: new FormValidation.plugins.SubmitButton(),
-            icon: new FormValidation.plugins.Icon({
-                valid: 'fa fa-check',
-                invalid: 'fa fa-times',
-                validating: 'fa fa-refresh'
-            })
-
+            submitButton: new FormValidation.plugins.SubmitButton()
         }
     });
 
@@ -286,12 +262,7 @@ function main() {
         plugins: {
             trigger: new FormValidation.plugins.Trigger(),
             bootstrap3: new FormValidation.plugins.Bootstrap3(),
-            submitButton: new FormValidation.plugins.SubmitButton(),
-            icon: new FormValidation.plugins.Icon({
-                valid: 'fa fa-check',
-                invalid: 'fa fa-times',
-                validating: 'fa fa-refresh'
-            })
+            submitButton: new FormValidation.plugins.SubmitButton()
 
         }
     })

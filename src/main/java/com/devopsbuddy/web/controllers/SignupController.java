@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -76,8 +77,10 @@ public class SignupController {
         return SUBSCRIPTION_VIEW_NAME;
     }
 
+    // MultipartFile is spring type to handle file uploads
     @RequestMapping(value = SIGNUP_URL_MAPPING, method = RequestMethod.POST)
     public String signupPost(@RequestParam(name = "planId", required = true) int planId,
+                             @RequestParam(name = "file", required = false) MultipartFile file,
                              @ModelAttribute(PAYLOAD_MODEL_KEY_NAME) @Valid ProAccountPayload payload,
                              ModelMap model) throws IOException{
         if(planId != PlansEnum.BASIC.getId() && planId != PlansEnum.PRO.getId()){
@@ -115,6 +118,18 @@ public class SignupController {
         // customer id, plans, and roles
         LOG.debug("Transforming user paylod into User domain object");
         User user = UserUtils.fromWebUserToDomainUser(payload);
+
+
+        // Stores the profile image on Amazon S3 and store the URL in the user's record
+        if(file != null && !file.isEmpty()){
+            String profileImageUrl = null;
+            if(profileImageUrl != null){
+                user.setProfileImageUrl(profileImageUrl);
+            }else{
+                LOG.warn("There was a problem uploading the profile image to S3. The user's profile will" +
+                         " be created without the image");
+            }
+        }
 
         // Sets the Plan and the Roles (depending on the chosen plan)
         LOG.debug("Retrieving plan from the database");

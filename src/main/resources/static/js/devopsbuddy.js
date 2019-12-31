@@ -97,10 +97,10 @@ function main() {
                     notEmpty: {
                         message: 'The password is required'
                     },
-                    identical: {
-                        field: 'confirmPassword',
-                        message: 'The password and its confirmation are not the same'
-                    }
+                    // identical: {
+                    //     field: 'confirmPassword',
+                    //     message: 'The password and its confirmation are not the same'
+                    // }
                 }
             },
             confirmPassword: {
@@ -108,10 +108,10 @@ function main() {
                     notEmpty: {
                         message: 'The confirmation password is required'
                     },
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirmation are not the same'
-                    }
+                    // identical: {
+                    //     field: 'password',
+                    //     message: 'The password and its confirmation are not the same'
+                    // }
                 }
             }
         },
@@ -184,10 +184,10 @@ function main() {
                     notEmpty: {
                         message: 'The password is required'
                     },
-                    identical: {
-                        field: 'confirmPassword',
-                        message: 'The password and its confirm are not the same'
-                    }
+                    // identical: {
+                    //     field: 'confirmPassword',
+                    //     message: 'The password and its confirm are not the same'
+                    // }
                 }
             },
             confirmPassword: {
@@ -195,10 +195,10 @@ function main() {
                     notEmpty: {
                         message: 'The confirmation password is required'
                     },
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm are not the same'
-                    }
+                    // identical: {
+                    //     field: 'password',
+                    //     message: 'The password and its confirm are not the same'
+                    // }
                 }
             },
             firstName: {

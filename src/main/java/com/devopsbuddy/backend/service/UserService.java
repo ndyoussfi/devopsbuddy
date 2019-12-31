@@ -72,6 +72,14 @@ public class UserService {
     }
 
     /**
+     * Returns a user for the given username or null if a user could not be found.
+     * @param username The username associated to the user to find.
+     * @return a user for the given username or null if a user could not be found.
+     */
+    public User findByUserName(String username) {
+        return userRepository.findByUserName(username);
+    }
+    /**
      * Returns a user for the given email or null if a user could not be found.
      * @param email The email associated to the user to find.
      * @return a user for the given email or null if a user could not be found.

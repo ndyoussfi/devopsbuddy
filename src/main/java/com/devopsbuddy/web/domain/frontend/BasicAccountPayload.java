@@ -29,7 +29,6 @@ public class BasicAccountPayload implements Serializable{
     @NotNull
     private String lastName;
 
-    @NotNull
     private String description;
 
     @NotNull
